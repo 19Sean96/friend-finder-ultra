@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 8080;
 app.use(express.urlencoded({extended: true }));
 app.use(express.json());
 // // ROUTER INIT
-// require("./app/routing/apiRoutes")(app);
 require("./app/routing/htmlRoutes")(app);
+require("./app/routing/apiRoutes")(app);
 
 
 // SERVER INIT

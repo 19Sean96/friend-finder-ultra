@@ -27,3 +27,5 @@ let friends = [
         scores: [4, 3, 2, 5, 1, 3, 3, 2, 1, 5]
     }
 ];
+
+module.exports = friends;
