@@ -1,23 +1,19 @@
 const express = require("express");
+// this is to get the correct file path for html
+
 
 // server init
 const app = express();
 
 // allows to connect to either heroku or local server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // data parsing init
 app.use(express.urlencoded({extended: true }));
-app.use(express.json);
-
-
+app.use(express.json());
 // // ROUTER INIT
 // require("./app/routing/apiRoutes")(app);
-// require("./app/routing/htmlRoutes")(app);
-
-app.get("/", (req,res) => {
-    console.log("Hello" + res);
-});
+require("./app/routing/htmlRoutes")(app);
 
 
 // SERVER INIT

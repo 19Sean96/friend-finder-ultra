@@ -1,13 +1,29 @@
 //Question List (10)
-const questions = [
-    "I enjoy being in the presence of others.",
-    "I consider myself to be athletic.",
-    "On the weekend, I'd rather stay in than go out.",
-    "I am satisfied with who I am.",
-    "I consider myself to be creative & adventurous.",
-    "I favor logical decisions over emotional decisions.",
-    "I prefer reading non-fiction over fiction.",
-    "I consider myself a natural leader.",
-    "I work efficiently.",
-    "I enjoy learning new things."
-]
+
+
+let friends = [
+    {
+        name: "Ahmed",
+        photo:
+            "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+        scores: [5, 1, 4, 4, 5, 1, 2, 5, 4, 1]
+    },
+    {
+        name: "Sean",
+        photo:
+            "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+        scores: [3, 1, 2, 1, 5, 2, 5, 1, 3, 3]
+    },
+    {
+        name: "Bob",
+        photo:
+            "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+        scores: [1, 2, 3, 2, 4, 5, 1, 1, 3, 2]
+    },
+    {
+        name: "David",
+        photo:
+            "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+        scores: [4, 3, 2, 5, 1, 3, 3, 2, 1, 5]
+    }
+];

@@ -1,12 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Survey - Friend Finder</title>
-</head>
-<body>
-    <p>Hello World!</p>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Survey - Friend Finder</title>
+
+        <!-- TO DO: NEED TO IMPLEMENT INCLUSION OF STATIC FILES IN EXPRESS - USING INLINE CSS IN THE MEANTIME -->
+        <!-- <link rel="stylesheet" href="../assets/style.css" /> -->
+        <style>
+            @import url("https://fonts.googleapis.com/css?family=Montserrat:300,800&display=swap");
+            /* Color Theme Swatches in Hex */
+            * {
+                margin: 0;
+                padding: 0;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                font-family: "Montserrat", sans-serif;
+            }
+
+            body {
+                background-color: #344349;
+            }
+
+            .home-container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+                width: 98vw;
+                height: 95vh;
+                background-color: #3c5159;
+                -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                justify-content: center;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                align-items: center;
+            }
+
+            .home-container .title {
+                font-weight: 300;
+                color: #f2f2f2;
+                margin-bottom: 10px;
+                font-size: 50px;
+            }
+
+            .home-container input[type="button"] {
+                position: relative;
+                cursor: pointer;
+                margin-top: 10px;
+                font-size: 35px;
+                color: #f2cf1d;
+                font-weight: 800;
+                background-color: #344349;
+                border: 2px solid #f2cf1d;
+                padding: 5px 20px;
+                -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+                -webkit-transition: 0.5s all;
+                transition: 0.5s all;
+            }
+
+            .home-container input[type="button"]:hover {
+                background-color: #f2cf1d;
+                color: #344349;
+                -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            input[type="button"]:focus {
+                outline: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="home-container">
+            <h1 class="title">Friend Finder</h1>
+            <a href="/survey">
+                <input type="button" value="Time To Get Social" />
+            </a>
+        </div>
+    </body>
 </html>

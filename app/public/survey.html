@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Survey - Friend Finder</title>
+        <!-- TO DO: NEED TO IMPLEMENT INCLUSION OF STATIC FILES IN EXPRESS - USING INLINE CSS IN THE MEANTIME -->
+        <!-- <link rel="stylesheet" href="../assets/style.css"> -->
+        <style>
+            @import url("https://fonts.googleapis.com/css?family=Montserrat:300,800&display=swap");
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+                font-family: "Montserrat", Arial, Helvetica, sans-serif;
+            }
+            h1 {
+                width: 75%;
+                margin: 25px auto 30px;
+                text-align: center;
+                font-weight: 300;
+                color: #f2f2f2;
+                font-size: 50px;
+            }
+            body {
+                background-color: #344349;
+            }
+
+            .container {
+                width: 90%;
+                min-height: 100vh;
+                background-color: #3c5159;
+                margin: 0 auto 100px;
+                padding-bottom: 50px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            }
+
+            .question {
+                width: 80%;
+                list-style: none;
+                margin-left: 5px;
+            }
+
+            .question-title {
+                padding-top: 30px;
+                padding-bottom: 10px;
+                padding-left: 40px;
+                color: #1c1c1c;
+
+            }
+
+            .input-container {
+                padding: 5px 0 5px 65px;
+                color: #f2f2f2;
+            }
+
+            .input-container label {
+                text-transform: capitalize;
+            }
+
+            input[type="submit"] {
+                position: relative;
+                display: block;
+                cursor: pointer;
+                margin-top: 10px;
+                font-size: 35px;
+                color: #f2cf1d;
+                font-weight: 800;
+                background-color: #344349;
+                border: 2px solid #f2cf1d;
+                padding: 5px 20px;
+                -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+                -webkit-transition: 0.5s all;
+                transition: 0.5s all;
+                margin: 25px auto 0;
+            }
+
+            input[type="submit"]:hover {
+                background-color: #f2cf1d;
+                color: #344349;
+                -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            input[type="submit"]:focus {
+                outline: none;
+            }
+
+            .text-label {
+                margin: 15px 0 15px 5px;
+                color: #1c1c1c;
+            }
+
+            #name,
+            #photo {
+                padding: 10px;
+                background-color: rgba(0, 0, 0, 0.2);
+                border: none;
+                display: block;
+                width: 50%;
+                margin: 5px 0;
+                border-bottom: 3px solid #F2CF1D;
+                color: #f2f2f2;
+                font-size: 18px;
+                transition: .4s all;
+            }
+
+            #name:focus,
+            #photo:focus {
+                background-color: rgba(0, 0, 0, 0.3);
+                outline: none;
+                border-bottom: 3px solid #52BF04;
+
+            }
+
+            @media only screen and (min-width: 1000px) {
+                h2 {
+                    font-size: 30px;
+                }
+                .question,
+                .text-label {
+                    margin-left: 10%;
+                }
+
+                label {
+                    font-size: 20px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Simply answer these questions, and we'll find you a pal!</h1>
+        <div class="container">
+            <form id="survey-form" autocomplete="off">
+                <div class="input-container">
+                    <h2 class="text-label">
+                        Name (Required): 
+                        <input type="text" id="name" required/>
+                    </h2>
+                    <h2 class="text-label">
+                        Selfie URL(Required): 
+                        <input type="text" id="photo" required />
+                    </h2>
+                </div>
+                <ul class="questionlist"></ul>
+                <input type="submit" value="See Results" />
+            </form>
+        </div>
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            const questions = [
+                "I enjoy being in the presence of others.",
+                "I consider myself to be athletic.",
+                "On the weekend, I'd rather stay in than go out.",
+                "I am satisfied with who I am.",
+                "I consider myself to be creative & adventurous.",
+                "I favor logical decisions over emotional decisions.",
+                "I prefer reading non-fiction over fiction.",
+                "I consider myself a natural leader.",
+                "I work efficiently.",
+                "I enjoy learning new things."
+            ];
+
+            const answers = [
+                "strongly agree",
+                "agree",
+                "neutral",
+                "disagree",
+                "strongly disagree"
+            ];
+
+            for (let i = 0; i < questions.length; i++) {
+                const qNum = $("<span>")
+                    .addClass("q-num")
+                    .html(`${i + 1}. `);
+
+                const qTitle = $("<h2>")
+                    .addClass("question-title")
+                    .append(qNum)
+                    .append(questions[i]);
+
+                const q = $("<li>")
+                    .addClass("question")
+                    .attr("data-question", i + 1)
+                    .append(qTitle);
+                $(".questionlist").append(q);
+
+                for (let j = 1; j <= answers.length; j++) {
+                    const input = $("<input>").attr({
+                        type: "radio",
+                        name: `q${i + 1}`,
+                        value: `${[j]}`,
+                        required: "required"
+                    });
+
+                    if (j === 1) {
+                        // IMPORTANT: this is only for testing
+                        input.prop("checked", true);
+                    }
+                    const label = $("<label>")
+                        .attr("for", `q${i + 1}`)
+                        .html(` ${answers[j - 1]}`);
+
+                    const container = $("<div>")
+                        .addClass("input-container")
+                        .append(input)
+                        .append(label);
+                    q.append(container);
+                }
+            }
+
+            $('input[type="submit"]').click(function(e) {
+                e.preventDefault();
+                // get all the inputs into an array.
+                let $inputs = $("#survey-form :input:checked");
+                const name = $('#name').val();
+                const photo = $('#photo').val();
+                let values = {};
+                $inputs.each(function() {
+                    values[this.name] = $(this).val();
+                });
+                values.name = name;
+                values.photo = photo;
+                console.log(values);
+            });
+        </script>
+    </body>
+</html>
