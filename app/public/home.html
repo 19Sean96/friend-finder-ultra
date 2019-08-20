@@ -82,6 +82,20 @@
             input[type="button"]:focus {
                 outline: none;
             }
+
+            .friend-list {
+                padding-bottom: 2px;
+                position: absolute;
+                bottom: 10%;
+                text-decoration: none;
+                color: #f2f2f2;
+                border-bottom: 2px #f2cf1d solid;
+                transition: .15s all ease-in-out;
+            }
+
+            .friend-list:hover {
+                padding-bottom: 5px;
+            }
         </style>
     </head>
     <body>
@@ -90,7 +104,7 @@
             <a href="/survey">
                 <input type="button" value="Time To Get Social" />
             </a>
-            <a href="/api/friends">API Table Link</a>
+            <a href="/api/friends" class="friend-list">Full Friend List</a>
         </div>
     </body>
 </html>

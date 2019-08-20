@@ -28,6 +28,7 @@
             }
 
             .container {
+                position: relative;
                 width: 90%;
                 min-height: 100vh;
                 background-color: #3c5159;
@@ -157,6 +158,21 @@
                 margin: 0 auto;
             }
 
+            .friend-list {
+                padding-bottom: 2px;
+                position: absolute;
+                bottom: 10px;
+                right: 20px;
+                text-decoration: none;
+                color: #f2f2f2;
+                border-bottom: 2px #f2cf1d solid;
+                transition: 0.15s all ease-in-out;
+            }
+
+            .friend-list:hover {
+                padding-bottom: 5px;
+            }
+
             @media only screen and (min-width: 1000px) {
                 h2 {
                     font-size: 30px;
@@ -179,16 +195,17 @@
                 <div class="input-container">
                     <h2 class="text-label">
                         Name (Required):
-                        <input type="text" id="name" required />
+                        <input type="text" id="name" required="required" />
                     </h2>
                     <h2 class="text-label">
                         Selfie URL(Required):
-                        <input type="text" id="photo" required />
+                        <input type="text" id="photo" required="required" />
                     </h2>
                 </div>
                 <ul class="questionlist"></ul>
                 <input type="submit" value="See Results" />
             </form>
+            <a href="/api/friends" class="friend-list">Full Friend List</a>
         </div>
 
         <div class="modal">
@@ -196,11 +213,7 @@
             <h4>Nice! You matched with:</h4>
             <h2 id="matchName"></h2>
             <div class="img-container">
-                <img
-                    src=""
-                    alt="your friend's photo"
-                    id="matchPhoto"
-                />
+                <img src="" alt="your friend's photo" id="matchPhoto" />
             </div>
         </div>
         <script
@@ -270,7 +283,7 @@
                 }
             }
 
-            $('.close').click(e => {
+            $(".close").click(e => {
                 e.preventDefault();
 
                 $(".modal").css({
@@ -281,22 +294,28 @@
 
             $('input[type="submit"]').click(function(e) {
                 e.preventDefault();
-                // get all the inputs into an array.
 
-                let $inputs = $("#survey-form :input:checked");
-                let scores = [];
-                for (let i = 0; i < $inputs.length; i++) {
-                    scores.push($inputs[i].value);
-                }
                 const name = $("#name").val();
                 const photo = $("#photo").val();
-                let values = {
-                    name: name,
-                    photo: photo,
-                    scores: scores
-                };
+                console.log(`name: ${name}`);
+                console.log(`photo: ${photo}`);
 
-                findFriend(values);
+                if (name != "" && photo != "") {
+                    // get all the inputs into an array.
+                    let $inputs = $("#survey-form :input:checked");
+                    let scores = [];
+                    for (let i = 0; i < $inputs.length; i++) {
+                        scores.push($inputs[i].value);
+                    }
+
+                    let values = {
+                        name: name,
+                        photo: photo,
+                        scores: scores
+                    };
+
+                    findFriend(values);
+                } else alert("Don't Forget To Enter Your Name & Add a Photo!");
             });
 
             function findFriend(user) {
@@ -309,22 +328,20 @@
                         userScore[i] = parseInt(userScore[i]);
                     }
                     let diff = [];
+                    console.log(friendData);
                     friendData.forEach(potentialFriend => {
                         const potentialFriendScore = potentialFriend.scores;
                         diff.push(
                             compare(userScore, potentialFriendScore, diff)
                         );
-                        console.log(diff);
                     });
                     const match = friendData[diff.indexOf(Math.min(...diff))];
-                    showMatch(match);
+                    showMatch(match, user);
                 });
             }
 
             function compare(user, potential, scoreDiff) {
                 let totalDiff = 0;
-                console.log(`user ${user}`);
-                console.log(`potential ${potential}`);
 
                 for (let i = 0; i < user.length; i++) {
                     if (user[i] < potential[i]) {
@@ -336,13 +353,17 @@
                 return totalDiff;
             }
 
-            function showMatch(match) {
-                $('#matchName').text(match.name);
-                $('#matchPhoto').attr('src', match.photo);
+            function showMatch(match, user) {
+                $("#matchName").text(match.name);
+                $("#matchPhoto").attr("src", match.photo);
 
                 $(".modal").css({
                     opacity: "1",
                     "pointer-events": "all"
+                });
+
+                $.post("/api/friends", user, function(data) {
+                    console.log(data.body);
                 });
             }
         </script>
