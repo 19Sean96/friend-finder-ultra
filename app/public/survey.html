@@ -219,15 +219,17 @@
                 e.preventDefault();
                 // get all the inputs into an array.
                 let $inputs = $("#survey-form :input:checked");
+                let scores = [];
+                for (let i = 0; i < $inputs.length; i++) {
+                    scores.push($inputs[i].value);
+                }
                 const name = $('#name').val();
                 const photo = $('#photo').val();
-                let values = {};
-                $inputs.each(function() {
-                    values[this.name] = $(this).val();
-                });
-                values.name = name;
-                values.photo = photo;
-                console.log(values);
+                let values = {
+                    name: name,
+                    photo: photo,
+                    scores: scores
+                };
             });
         </script>
     </body>
