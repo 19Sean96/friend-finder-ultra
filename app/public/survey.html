@@ -47,7 +47,6 @@
                 padding-bottom: 10px;
                 padding-left: 40px;
                 color: #1c1c1c;
-
             }
 
             .input-container {
@@ -101,18 +100,61 @@
                 display: block;
                 width: 50%;
                 margin: 5px 0;
-                border-bottom: 3px solid #F2CF1D;
+                border-bottom: 3px solid #f2cf1d;
                 color: #f2f2f2;
                 font-size: 18px;
-                transition: .4s all;
+                transition: 0.4s all;
             }
 
             #name:focus,
             #photo:focus {
                 background-color: rgba(0, 0, 0, 0.3);
                 outline: none;
-                border-bottom: 3px solid #52BF04;
+                border-bottom: 3px solid #52bf04;
+            }
 
+            .modal {
+                position: fixed;
+                pointer-events: none;
+                top: 35%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 65%;
+                max-width: 600px;
+                height: 50%;
+                background-color: #d8ddd5;
+                border-bottom: 3px solid #52bf04;
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+                transition: 0.4s all;
+                padding: 25px;
+                text-align: center;
+                opacity: 0;
+            }
+
+            .close {
+                cursor: pointer;
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                font-size: 35px;
+            }
+
+            #matchName {
+                margin: 10px 0;
+                font-size: 28px;
+            }
+
+            #matchPhoto {
+                max-width: 100%;
+                max-height: 100%;
+            }
+
+            .img-container {
+                max-width: 80%;
+                height: 70%;
+                margin: 0 auto;
             }
 
             @media only screen and (min-width: 1000px) {
@@ -136,17 +178,30 @@
             <form id="survey-form" autocomplete="off">
                 <div class="input-container">
                     <h2 class="text-label">
-                        Name (Required): 
-                        <input type="text" id="name" required/>
+                        Name (Required):
+                        <input type="text" id="name" required />
                     </h2>
                     <h2 class="text-label">
-                        Selfie URL(Required): 
+                        Selfie URL(Required):
                         <input type="text" id="photo" required />
                     </h2>
                 </div>
                 <ul class="questionlist"></ul>
                 <input type="submit" value="See Results" />
             </form>
+        </div>
+
+        <div class="modal">
+            <span class="close">&times;</span>
+            <h4>Nice! You matched with:</h4>
+            <h2 id="matchName"></h2>
+            <div class="img-container">
+                <img
+                    src=""
+                    alt="your friend's photo"
+                    id="matchPhoto"
+                />
+            </div>
         </div>
         <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -215,22 +270,81 @@
                 }
             }
 
+            $('.close').click(e => {
+                e.preventDefault();
+
+                $(".modal").css({
+                    opacity: "0",
+                    "pointer-events": "none"
+                });
+            });
+
             $('input[type="submit"]').click(function(e) {
                 e.preventDefault();
                 // get all the inputs into an array.
+
                 let $inputs = $("#survey-form :input:checked");
                 let scores = [];
                 for (let i = 0; i < $inputs.length; i++) {
                     scores.push($inputs[i].value);
                 }
-                const name = $('#name').val();
-                const photo = $('#photo').val();
+                const name = $("#name").val();
+                const photo = $("#photo").val();
                 let values = {
                     name: name,
                     photo: photo,
                     scores: scores
                 };
+
+                findFriend(values);
             });
+
+            function findFriend(user) {
+                $.ajax({
+                    url: "/api/friends",
+                    method: "GET"
+                }).then(friendData => {
+                    let userScore = user.scores;
+                    for (let i = 0; i < userScore.length; i++) {
+                        userScore[i] = parseInt(userScore[i]);
+                    }
+                    let diff = [];
+                    friendData.forEach(potentialFriend => {
+                        const potentialFriendScore = potentialFriend.scores;
+                        diff.push(
+                            compare(userScore, potentialFriendScore, diff)
+                        );
+                        console.log(diff);
+                    });
+                    const match = friendData[diff.indexOf(Math.min(...diff))];
+                    showMatch(match);
+                });
+            }
+
+            function compare(user, potential, scoreDiff) {
+                let totalDiff = 0;
+                console.log(`user ${user}`);
+                console.log(`potential ${potential}`);
+
+                for (let i = 0; i < user.length; i++) {
+                    if (user[i] < potential[i]) {
+                        totalDiff += potential[i] - user[i];
+                    } else if (user[i] > potential[i]) {
+                        totalDiff += user[i] - potential[i];
+                    }
+                }
+                return totalDiff;
+            }
+
+            function showMatch(match) {
+                $('#matchName').text(match.name);
+                $('#matchPhoto').attr('src', match.photo);
+
+                $(".modal").css({
+                    opacity: "1",
+                    "pointer-events": "all"
+                });
+            }
         </script>
     </body>
 </html>
