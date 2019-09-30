@@ -1,6 +1,12 @@
 # Friend Finder
 [Check out the demo](https://simple-friend-finder.herokuapp.com/)
-## *Full Stack Application*
+## About
+**Tools used:**
+ - Node.js with Express
+ - mySQL
+ - jQuery
+ - 
+
 This application allows the user to fill out a personality survey. It then takes the results of that survey & selects a best friend for the user. 
 **How it works:**
 
@@ -46,14 +52,4 @@ function compare(user, potential, scoreDiff) {
 }
 ```
 	
- 4. The person with the lowest difference in score with the user's score  is the chosen friend! 
-
-
-
-
-
-
-
-
-> Written with [StackEdit](https://stackedit.io/).
-
+ 4. The person with the lowest difference in sc
