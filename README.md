@@ -5,7 +5,6 @@
  - Node.js with Express
  - mySQL
  - jQuery
- - 
 
 This application allows the user to fill out a personality survey. It then takes the results of that survey & selects a best friend for the user. 
 **How it works:**
